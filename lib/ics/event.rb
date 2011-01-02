@@ -45,8 +45,9 @@ module ICS
       def parse(str)
         str.split($/).inject({}) do |hash, line|
           key, value = line.split(':', 2)
+          next hash if key =~ /^BEGIN/ # Ignore any other book ends.
           value = value.chomp if value
-          key = key.split(';', 2).first # ignore extra data other than just the name of the attribute.
+          key = key.split(';', 2).first # Ignore extra data other than just the name of the attribute.
           hash[key.downcase.to_sym] = value
           hash
         end

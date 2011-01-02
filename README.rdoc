@@ -1,0 +1,74 @@
+= ICS
+
+ICS is a library that reads ICS files and parses them into ICS::Event objects.
+
+== Usage
+
+=== Short version
+
+  require 'rubygems'
+  require 'ics'
+  events = ICS::Event.file(File.open('calendar.ics'))
+  events.map(&:summary)
+  #=> ['Walk dog', 'Solve world hunger, tell noone', ...]
+
+=== Longer version
+
+The ICS::Event class can read in and parse an exported .ics file. For example, from iCal, export a calendar (select calendar, File, Export..., Export...):
+  ICS::Event.file(File.open('calendar.ics'))
+will return an array of events with whatever attributes are in the .ics file for each event. The ICS::Event object will have a method name for each attribute in lower case form.
+  # calendar.ics
+  ...
+  SUMMARY:Grocery shopping
+  ...
+  
+  # ruby environment
+  event.summary
+  #=> 'Grocery shopping'
+
+Here are a list of known attributes:
+* TRANSP
+* DTEND
+* UID
+* DTSTAMP
+* LOCATION
+* DESCRIPTION
+* URL
+* STATUS
+* SEQUENCE
+* SUMMARY
+* DTSTART
+* CREATED
+# For the alarm...
+* # BEGIN:VALARM (ignored)
+* X-WR-ALARMUID
+* TRIGGER
+* ATTACH
+* ACTION
+* # END:VALARM (ignored)
+
+=== Data type casting
+
+By default, each attribute method returns a string literal. For convenience, attribute methods can be easily defined in the ICS::Event class for customized behavior. Currently <tt>ICS::Event#dtstart</tt> is the only one that is defined:
+  event.dtstart.class
+  #=> Time
+
+=== More "Railsy"
+
+<tt>ICS::Event#started_at</tt> is an alias for <tt>ICS::Event#dtstart</tt>. <tt>ICS::Event#started_on</tt> returns a Date object converted from <tt>ICS::Event#dtstart</tt>. More later...
+
+=== Metadata
+
+Some attributes have some metadata attached to them. For example, sometimes the DTSTART attribute has the time zone:
+
+  DTSTART;TZID=America/Chicago:20100331T190000
+
+As of this version, metadata is ignored.
+
+== Installation
+
+  gem install ics
+
+== Ruby
+
+Written in Ruby 1.9.2p0.
