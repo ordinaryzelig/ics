@@ -4,29 +4,28 @@ module ICS
 
   class Event
 
-    # Given a hash of attributes, define a method for each key that returns the value.
-    # Attributes stored in instance variable.
+    attr_accessor :action
+    attr_accessor :alarmuid
+    attr_accessor :attach
+    attr_accessor :created
+    attr_accessor :description
+    attr_accessor :dtend
+    attr_accessor :dtstamp
+    attr_accessor :dtstart
+    attr_accessor :location
+    attr_accessor :sequence
+    attr_accessor :status
+    attr_accessor :summary
+    attr_accessor :transp
+    attr_accessor :trigger
+    attr_accessor :uid
+    attr_accessor :url
+    attr_accessor :x_wr_alarmuid
+
     def initialize(attributes = {})
-      @attributes = attributes
       attributes.each do |key, val|
-        unless respond_to?(key)
-          self.class.send :define_method, key do
-            @attributes[key]
-          end
-        end
+        send("#{key}=", val)
       end
-    end
-
-    # Return time object.
-    # Assumes time in UTC.
-    def dtstart
-      return nil unless @attributes[:dtstart]
-      DateTime.parse(@attributes[:dtstart]).to_time.utc
-    end
-    alias_method :started_at, :dtstart
-
-    def started_on
-      dtstart.to_date if dtstart
     end
 
     class << self
@@ -38,19 +37,26 @@ module ICS
         line_ending = $/
         content.split("BEGIN:VEVENT#{line_ending}")[1..-1].map do |data_string|
           data_string = data_string.split("END:VEVENT#{line_ending}").first
-          new parse(data_string)
+          parse(data_string)
         end
       end
 
+      # Parse data and return new Event.
       def parse(str)
-        str.split($/).inject({}) do |hash, line|
+        attributes = str.split($/).inject({}) do |hash, line|
           key, value = line.split(':', 2)
-          next hash if key =~ /^BEGIN/ # Ignore any other book ends.
+          next hash if key =~ /^BEGIN$|^END$/ # Ignore any other book ends.
           value = value.chomp if value
-          key = key.split(';', 2).first # Ignore extra data other than just the name of the attribute.
+          key =
+            key.
+            split(';', 2).
+            first. # Ignore extra data other than just the name of the attribute.
+            gsub('-', '_') # underscore.
           hash[key.downcase.to_sym] = value
           hash
         end
+
+        new(attributes)
       end
 
     end

@@ -20,5 +20,5 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'autotest'
   s.add_development_dependency 'awesome_print'
-  s.add_development_dependency 'rspec', '2.3.0'
+  s.add_development_dependency 'rspec', '2.12'
 end
