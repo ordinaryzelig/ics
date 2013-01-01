@@ -32,4 +32,12 @@ URL: one-liner
     event.dtstart.should == '20100331T200000'
   end
 
+  describe 'escaped characters' do
+
+    it_unescapes '\,',   ','
+    it_unescapes '\\\\', '\\' # double backslash unescapes into single
+    it_unescapes '\, \2', ', 2'
+
+  end
+
 end

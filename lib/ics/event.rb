@@ -48,17 +48,21 @@ module ICS
       # Parse data and return new Event.
       def parse(str)
         chunks = chunk(str.split($/))
-        attributes = chunks.inject({}) do |hash, line|
+        attributes = chunks.each_with_object({}) do |line, hash|
           key, value = line.split(':', 2)
           next hash if key =~ /^BEGIN$|^END$/ # Ignore any other book ends.
-          value = value.chomp if value
+          value =
+            value.
+            chomp.
+            gsub(/\\(.)/, '\1') if value
+
           key =
             key.
             split(';', 2).
             first. # Ignore extra data other than just the name of the attribute.
             gsub('-', '_') # underscore.
+
           hash[key.downcase.to_sym] = value
-          hash
         end
 
         new(attributes)

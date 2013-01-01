@@ -1,3 +1,7 @@
+== 0.3 (2013-01-01)
+
+* Unescape value characters.
+
 == 0.2.1 (2013-01-01)
 
 * Add new event fields.

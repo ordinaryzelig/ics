@@ -1,10 +1,12 @@
-module Macros
+module RSpec::Core::DSL
 
-  def file_with_content(content)
-    file = Tempfile.new('tmp')
-    file.write content
-    file.rewind
-    file
+  def it_unescapes(raw, unescaped)
+    it "unescapes '#{raw}' into '#{unescaped}'" do
+      line = "DESCRIPTION:#{raw}"
+      event = ICS::Event.parse(line)
+
+      event.description.should == unescaped
+    end
   end
 
 end
