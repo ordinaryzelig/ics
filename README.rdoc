@@ -26,4 +26,5 @@ As of this version, metadata is ignored.
 
 == TODO
 
+* escape characters
 * Multiple alarms?
