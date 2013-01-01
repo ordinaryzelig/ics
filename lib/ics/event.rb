@@ -7,11 +7,13 @@ module ICS
     attr_accessor :action
     attr_accessor :alarmuid
     attr_accessor :attach
+    attr_accessor :categories
     attr_accessor :created
     attr_accessor :description
     attr_accessor :dtend
     attr_accessor :dtstamp
     attr_accessor :dtstart
+    attr_accessor :last_modified
     attr_accessor :location
     attr_accessor :sequence
     attr_accessor :status
@@ -20,6 +22,7 @@ module ICS
     attr_accessor :trigger
     attr_accessor :uid
     attr_accessor :url
+    attr_accessor :x_apple_default_alarm
     attr_accessor :x_wr_alarmuid
 
     def initialize(attributes = {})

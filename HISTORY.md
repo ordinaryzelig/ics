@@ -1,3 +1,7 @@
+== 0.2.1 (2013-01-01)
+
+* Add new event fields.
+
 == 0.2 (2013-01-01)
 
 * Refactor to use less metaprogramming.
