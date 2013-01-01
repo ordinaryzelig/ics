@@ -7,6 +7,7 @@ module ICS
     attr_accessor :action
     attr_accessor :alarmuid
     attr_accessor :attach
+    attr_accessor :attendee
     attr_accessor :categories
     attr_accessor :created
     attr_accessor :description
