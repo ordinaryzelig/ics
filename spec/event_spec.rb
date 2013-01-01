@@ -9,6 +9,18 @@ describe ICS::Event do
     event.status.should  == 'val'
   end
 
+  it 'parses multi-line attribute' do
+    raw = <<-END
+SUMMARY: one-liner
+DESCRIPTION:this is on multi
+ ple lines
+URL: one-liner
+    END
+    event = ICS::Event.parse(raw)
+
+    event.description.should == 'this is on multiple lines'
+  end
+
   it 'should read a file, parse it, and return an array of events' do
     events = ICS::Event.file(File.open('spec/support/fixtures/example_events.ics'))
     events.size.should > 0

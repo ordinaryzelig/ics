@@ -27,4 +27,3 @@ As of this version, metadata is ignored.
 == TODO
 
 * Multiple alarms?
-* Multi-line values (like description)

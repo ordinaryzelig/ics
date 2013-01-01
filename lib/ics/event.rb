@@ -46,7 +46,8 @@ module ICS
 
       # Parse data and return new Event.
       def parse(str)
-        attributes = str.split($/).inject({}) do |hash, line|
+        chunks = chunk(str.split($/))
+        attributes = chunks.inject({}) do |hash, line|
           key, value = line.split(':', 2)
           next hash if key =~ /^BEGIN$|^END$/ # Ignore any other book ends.
           value = value.chomp if value
@@ -60,6 +61,19 @@ module ICS
         end
 
         new(attributes)
+      end
+
+    private
+
+      # Consolidate multi-line values.
+      def chunk(lines)
+        lines.each_with_object([]) do |line, chunks|
+          if line.start_with? ' '
+            chunks.last << line[1..line.length]
+          else
+            chunks << line
+          end
+        end
       end
 
     end

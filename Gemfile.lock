@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ics (0.1)
+    ics (0.2.1)
 
 GEM
   remote: http://rubygems.org/
@@ -27,4 +27,4 @@ DEPENDENCIES
   autotest
   awesome_print
   ics!
-  rspec
+  rspec (= 2.12)
